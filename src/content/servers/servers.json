@@ -1,0 +1,56 @@
+[
+  {
+    "id": "chernarus-main",
+    "name": "OutbreakDayZ | Chernarus | Main",
+    "map": "Chernarus",
+    "ip": "play.outbreakdayz.com",
+    "port": 2302,
+    "slots": 60,
+    "mods": [
+      "Community Framework",
+      "Community Online Tools",
+      "VPP Admin Tools",
+      "Trader",
+      "DayZ-Expansion-Bundle"
+    ],
+    "battlemetricsId": "TBD",
+    "status": "online",
+    "description": "Our flagship Chernarus server. Hardened economy. Active raids. Traders in safezones.",
+    "tags": ["PVE/PVP", "Traders", "Active Admins"]
+  },
+  {
+    "id": "livonia-pve",
+    "name": "OutbreakDayZ | Livonia | PVE Survival",
+    "map": "Livonia",
+    "ip": "play.outbreakdayz.com",
+    "port": 2402,
+    "slots": 40,
+    "mods": [
+      "Community Framework",
+      "Community Online Tools",
+      "Trader",
+      "Base Building Plus"
+    ],
+    "battlemetricsId": "TBD",
+    "status": "online",
+    "description": "Slow-burn PVE. Build, hunt, and outlast. PVP only at designated event zones.",
+    "tags": ["PVE", "Co-op", "Base Building"]
+  },
+  {
+    "id": "namalsk-hardcore",
+    "name": "OutbreakDayZ | Namalsk | Hardcore",
+    "map": "Namalsk",
+    "ip": "play.outbreakdayz.com",
+    "port": 2502,
+    "slots": 30,
+    "mods": [
+      "Namalsk Island",
+      "Namalsk Survival",
+      "Community Framework"
+    ],
+    "battlemetricsId": "TBD",
+    "status": "maintenance",
+    "description": "Frozen wasteland. No safezones. Cold kills faster than infected.",
+    "tags": ["Hardcore", "No Safezones", "Cold"]
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "id": "ghost",
+    "name": "Ghost",
+    "role": "Founder & Head Admin",
+    "bio": "Ran the original outbreak. Still running it."
+  },
+  {
+    "id": "doc",
+    "name": "Doc",
+    "role": "Server Admin",
+    "bio": "Patches the server. Patches you up."
+  },
+  {
+    "id": "vega",
+    "name": "Vega",
+    "role": "Community Manager",
+    "bio": "Runs Discord, events, and answers your questions."
+  },
+  {
+    "id": "wraith",
+    "name": "Wraith",
+    "role": "Moderator",
+    "bio": "Watches the logs. Keeps the peace."
+  }
+]

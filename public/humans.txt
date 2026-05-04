@@ -1,0 +1,18 @@
+# humanstxt.org
+
+/* TEAM */
+Founder: Ghost
+Server Admin: Doc
+Community Manager: Vega
+Moderator: Wraith
+Site: rebuilt by Claude Code
+Stack: Astro, Tailwind, MDX, Sharp, Satori
+Hosting: Hetzner / Coolify
+
+/* SITE */
+Last update: 2026-05-04
+Standards: HTML5, CSS3, ES2022, A11Y AA
+Components: Astro
+Software: Astro, VS Code
+
+# We're hiring zombies. Bring your own teeth.

@@ -1,0 +1,70 @@
+---
+interface Props {
+  ip: string;
+  port: number;
+  label?: string;
+}
+const { ip, port, label = 'Copy connect' } = Astro.props;
+const value = `${ip}:${port}`;
+---
+<button
+  class="copy-connect btn"
+  type="button"
+  data-value={value}
+  aria-label={`Copy connect string ${value}`}
+>
+  <span class="ip-text">{value}</span>
+  <span class="copy-text">{label}</span>
+</button>
+
+<style>
+  .copy-connect {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    text-transform: none;
+    letter-spacing: normal;
+    font-size: 0.95rem;
+    gap: 1rem;
+  }
+  .ip-text {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .copy-text {
+    color: var(--text-dim);
+    font-size: 0.85rem;
+    border-left: 1px solid var(--border);
+    padding-left: 1rem;
+  }
+  .copy-connect[data-copied] .copy-text {
+    color: var(--mil);
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.copy-connect');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const v = btn.dataset.value || '';
+      try {
+        await navigator.clipboard.writeText(v);
+      } catch {
+        const ta = document.createElement('textarea');
+        ta.value = v;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        ta.remove();
+      }
+      btn.setAttribute('data-copied', '');
+      const txt = btn.querySelector('.copy-text');
+      const original = txt?.textContent ?? 'Copy connect';
+      if (txt) txt.textContent = 'Copied';
+      setTimeout(() => {
+        btn.removeAttribute('data-copied');
+        if (txt) txt.textContent = original;
+      }, 1600);
+    });
+  });
+</script>

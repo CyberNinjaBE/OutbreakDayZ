@@ -1,0 +1,80 @@
+---
+import Base from '~/layouts/Base.astro';
+---
+<Base
+  title="404 — Too hot to recover"
+  description="This area is too hot. Pull back and try a different route."
+  noindex
+>
+  <section class="container err">
+    <div class="scan" aria-hidden="true"></div>
+    <p class="eyebrow">// SIGNAL LOST</p>
+    <h1 class="glitch" data-text="404">404</h1>
+    <p class="msg">
+      This area is too hot. The route you tried is overrun, irradiated, or it never existed.
+    </p>
+    <p class="sub">Pull back and try a different way.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="/">Return to base</a>
+      <a class="btn" href="/servers">View servers</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .err {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    isolation: isolate;
+    padding-block: 6rem;
+  }
+  .scan {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      rgba(178, 34, 34, 0.08) 3px,
+      transparent 4px
+    );
+    background-size: 100% 4px;
+    animation: scanShift 2.4s linear infinite;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  @keyframes scanShift {
+    from { background-position: 0 0; }
+    to   { background-position: 0 8px; }
+  }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--blood-bright);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    margin: 0 0 1.5rem;
+  }
+  h1 {
+    font-size: clamp(6rem, 18vw, 12rem);
+    margin: 0 0 1rem;
+    color: var(--text);
+  }
+  .msg { font-size: 1.15rem; color: var(--text); margin: 0 0 0.5rem; max-width: 40ch; }
+  .sub { color: var(--text-dim); margin: 0 0 2rem; }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+    justify-content: center;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scan { animation: none; }
+  }
+</style>

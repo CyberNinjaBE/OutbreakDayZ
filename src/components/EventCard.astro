@@ -1,0 +1,70 @@
+---
+interface Props {
+  title: string;
+  date: Date;
+  location?: string;
+  summary?: string;
+  href: string;
+  past?: boolean;
+}
+const { title, date, location, summary, href, past = false } = Astro.props;
+const formatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+const day = date.getDate();
+const month = new Intl.DateTimeFormat('en-US', { month: 'short' }).format(date);
+---
+<a class="event-card card brackets" href={href} data-reveal data-past={past || undefined}>
+  <div class="date" aria-hidden="true">
+    <span class="day">{String(day).padStart(2, '0')}</span>
+    <span class="mo">{month}</span>
+  </div>
+  <div class="content">
+    <p class="meta">
+      <time datetime={date.toISOString()}>{formatter.format(date)}</time>
+      {location && <><span class="sep">·</span><span>{location}</span></>}
+    </p>
+    <h3>{title}</h3>
+    {summary && <p class="summary">{summary}</p>}
+  </div>
+</a>
+
+<style>
+  .event-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: stretch;
+    color: inherit;
+  }
+  .event-card[data-past] { opacity: 0.65; }
+  .date {
+    border: 1px solid var(--border);
+    padding: 0.75rem 1rem;
+    text-align: center;
+    align-self: start;
+    color: var(--text);
+    background: rgba(178, 34, 34, 0.05);
+  }
+  .day {
+    display: block;
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--blood-bright);
+    line-height: 1;
+  }
+  .mo {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-dim);
+  }
+  .meta {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0 0 0.4rem;
+  }
+  .sep { margin: 0 0.5rem; }
+  h3 { margin: 0 0 0.5rem; font-size: 1.25rem; }
+  .summary { color: var(--text-dim); margin: 0; }
+</style>

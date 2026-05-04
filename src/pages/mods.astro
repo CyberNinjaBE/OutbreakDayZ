@@ -1,0 +1,37 @@
+---
+import Base from '~/layouts/Base.astro';
+import ModList from '~/components/ModList.astro';
+import { getCollection } from 'astro:content';
+
+const mods = (await getCollection('mods')).map((m) => m.data);
+---
+<Base
+  title="Mods"
+  description="Required and optional mods for OutbreakDayZ. Steam Workshop links and load order."
+>
+  <section class="container page-head">
+    <p class="eyebrow">// Loadout</p>
+    <h1>Mods</h1>
+    <p class="lede">
+      Subscribe to the required mods in order. Optional mods are listed below — you only
+      need them for the servers that use them.
+    </p>
+  </section>
+
+  <section class="container">
+    <ModList mods={mods} />
+  </section>
+</Base>
+
+<style>
+  .page-head { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; }
+</style>

@@ -1,0 +1,45 @@
+---
+import Base from '~/layouts/Base.astro';
+import MapView from '~/components/MapView.astro';
+---
+<Base
+  title="Map"
+  description="Operational map of Chernarus. Safezones, military bases, PVP hot zones, and active events."
+>
+  <section class="container page-head">
+    <p class="eyebrow">// Tactical overview</p>
+    <h1>Operational Map</h1>
+    <p class="lede">
+      Chernarus, with the points of interest you actually need to know about. Trader locations,
+      military bases, PVP zones, and the latest event drop.
+    </p>
+  </section>
+
+  <section class="container">
+    <MapView />
+    <p class="caption">
+      Map data is approximate. For exact coordinates, use
+      <a class="link" href="https://izurvive.com/" rel="noopener noreferrer">iZurvive</a>.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-head { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; }
+  .caption {
+    text-align: center;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 1.5rem;
+  }
+  .link { color: var(--rust); text-decoration: underline; text-underline-offset: 4px; }
+</style>

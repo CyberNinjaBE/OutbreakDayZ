@@ -1,0 +1,183 @@
+---
+import Base from '~/layouts/Base.astro';
+import CTA from '~/components/CTA.astro';
+import CopyConnect from '~/components/CopyConnect.astro';
+import { getCollection } from 'astro:content';
+
+const servers = await getCollection('servers');
+const mods = await getCollection('mods');
+const required = mods.filter((m) => m.data.required);
+
+const steps = [
+  {
+    n: '01',
+    title: 'Install DayZ',
+    body: 'Buy DayZ on Steam if you haven\'t already. We require the base game — no DLC needed for our main servers.',
+  },
+  {
+    n: '02',
+    title: 'Subscribe to required mods',
+    body: 'Open the Steam Workshop links below. Hit Subscribe on each. Steam will download them automatically.',
+  },
+  {
+    n: '03',
+    title: 'Open DayZ Launcher',
+    body: 'Launch the game. The DayZ Launcher opens. Go to the Mods tab. Make sure all required mods are checked and in the correct order (Community Framework first).',
+  },
+  {
+    n: '04',
+    title: 'Add the server',
+    body: 'Servers tab → Direct Connect → paste a connect string from below. Or search "OutbreakDayZ" under the Community filter.',
+  },
+  {
+    n: '05',
+    title: 'Connect & survive',
+    body: 'First spawn? Read the rules at /rules. Need help? Drop a #help message in our Discord.',
+  },
+];
+---
+<Base
+  title="How to Connect"
+  description="Step-by-step guide to joining OutbreakDayZ. Install DayZ, subscribe to mods, paste the connect string."
+>
+  <section class="container page-head">
+    <p class="eyebrow">// Onboarding</p>
+    <h1>How to Connect</h1>
+    <p class="lede">
+      Five steps. Five minutes. Then you're on the coast with the rest of us.
+    </p>
+  </section>
+
+  <section class="container">
+    <ol class="steps">
+      {steps.map((s) => (
+        <li class="step card brackets" data-reveal>
+          <span class="num">{s.n}</span>
+          <div>
+            <h3>{s.title}</h3>
+            <p>{s.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <section class="container">
+    <h2>Connect strings</h2>
+    <p class="lede">Copy and paste into DayZ Launcher → Direct Connect.</p>
+    <ul class="connects">
+      {servers.map((s) => (
+        <li class="card brackets" data-reveal>
+          <p class="map">{s.data.map}</p>
+          <h3>{s.data.name}</h3>
+          <CopyConnect ip={s.data.ip} port={s.data.port} />
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="container">
+    <h2>Required mods quick list</h2>
+    <p class="lede">Subscribe in this order. Full details at <a href="/mods" class="link">/mods</a>.</p>
+    <ol class="mod-list">
+      {required.map((m, i) => (
+        <li data-reveal>
+          <span class="ord">{String(i + 1).padStart(2, '0')}</span>
+          <a href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${m.data.workshopId}`} rel="noopener noreferrer">
+            {m.data.name}
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <CTA
+    title="Stuck?"
+    body="Hit our Discord. The #help channel is staffed by humans who have been there."
+    primary={{ href: '/community', label: 'Open Discord' }}
+  />
+</Base>
+
+<style>
+  .page-head { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; margin-bottom: 1.5rem; }
+  .steps {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: start;
+  }
+  .num {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--blood-bright);
+    line-height: 1;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.8rem;
+  }
+  .step h3 { margin: 0 0 0.4rem; font-size: 1.15rem; }
+  .step p { margin: 0; color: var(--text-dim); }
+
+  .connects {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .map {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.25rem;
+  }
+  .connects h3 { margin: 0 0 1rem; font-size: 1.05rem; }
+
+  .mod-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .mod-list li {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    transition: border-color 0.15s ease;
+  }
+  .mod-list li:hover { border-color: var(--blood); }
+  .ord {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--blood-bright);
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .mod-list a { color: var(--text); }
+  .link { color: var(--rust); text-decoration: underline; text-underline-offset: 4px; }
+
+  section { padding-block: clamp(2rem, 4vw, 3.5rem); }
+</style>

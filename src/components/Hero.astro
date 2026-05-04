@@ -1,0 +1,190 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  ctaPrimary?: { href: string; label: string };
+  ctaSecondary?: { href: string; label: string };
+}
+
+const { eyebrow, title, subtitle, ctaPrimary, ctaSecondary } = Astro.props;
+---
+<section class="hero">
+  <div class="bg-layer" aria-hidden="true">
+    <div class="scan-mask"></div>
+  </div>
+
+  <div class="container hero-content">
+    {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+    <h1 class="hero-title glitch" data-text={title}>{title}</h1>
+    {subtitle && <p class="subtitle">{subtitle}</p>}
+    {(ctaPrimary || ctaSecondary) && (
+      <div class="ctas">
+        {ctaPrimary && <a class="btn btn-primary" href={ctaPrimary.href}>{ctaPrimary.label}</a>}
+        {ctaSecondary && <a class="btn" href={ctaSecondary.href}>{ctaSecondary.label}</a>}
+      </div>
+    )}
+  </div>
+
+  <canvas id="hero-particles" aria-hidden="true"></canvas>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: clamp(540px, 90vh, 820px);
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .bg-layer {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(178, 34, 34, 0.18), transparent 55%),
+      radial-gradient(ellipse at 70% 80%, rgba(74, 90, 58, 0.10), transparent 60%),
+      linear-gradient(180deg, var(--bg-1) 0%, var(--bg-0) 100%);
+  }
+  .scan-mask {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.18) 3px,
+      transparent 4px
+    );
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+  }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-weight: 700;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.95rem;
+    margin: 0 0 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--rust);
+  }
+  .hero-title {
+    margin: 0 0 1rem;
+    max-width: 16ch;
+  }
+  .subtitle {
+    color: var(--text-dim);
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    max-width: 56ch;
+    margin: 0 0 2rem;
+  }
+  .ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem;
+  }
+  canvas#hero-particles {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.45;
+    mix-blend-mode: screen;
+  }
+  @media (max-width: 1023px) {
+    canvas#hero-particles { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    canvas#hero-particles { display: none; }
+    .scan-mask { display: none; }
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById('hero-particles') as HTMLCanvasElement | null;
+  if (
+    canvas &&
+    window.matchMedia('(min-width: 1024px)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  ) {
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      let w = 0, h = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const COUNT = 40;
+      type P = { x: number; y: number; vx: number; vy: number; r: number; a: number };
+      const particles: P[] = [];
+
+      const resize = () => {
+        const rect = canvas.getBoundingClientRect();
+        w = rect.width; h = rect.height;
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      };
+      const init = () => {
+        particles.length = 0;
+        for (let i = 0; i < COUNT; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            vx: (Math.random() - 0.5) * 0.15,
+            vy: -0.05 - Math.random() * 0.12,
+            r: 0.4 + Math.random() * 1.2,
+            a: 0.15 + Math.random() * 0.35,
+          });
+        }
+      };
+
+      let raf = 0;
+      let last = 0;
+      const loop = (t: number) => {
+        if (document.visibilityState === 'hidden') return;
+        const dt = Math.min(50, t - last);
+        last = t;
+        ctx.clearRect(0, 0, w, h);
+        for (const p of particles) {
+          p.x += p.vx * (dt / 16);
+          p.y += p.vy * (dt / 16);
+          if (p.y < -2) { p.y = h + 2; p.x = Math.random() * w; }
+          if (p.x < -2) p.x = w + 2;
+          if (p.x > w + 2) p.x = -2;
+          ctx.fillStyle = `rgba(232, 226, 212, ${p.a})`;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        raf = requestAnimationFrame(loop);
+      };
+
+      const start = () => { last = performance.now(); raf = requestAnimationFrame(loop); };
+      const stop = () => { cancelAnimationFrame(raf); };
+
+      const io = new IntersectionObserver((entries) => {
+        for (const e of entries) e.isIntersecting ? start() : stop();
+      });
+      io.observe(canvas);
+
+      document.addEventListener('visibilitychange', () => {
+        document.visibilityState === 'hidden' ? stop() : start();
+      });
+
+      window.addEventListener('resize', () => { resize(); init(); }, { passive: true });
+      resize();
+      init();
+    }
+  }
+</script>

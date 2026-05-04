@@ -1,0 +1,58 @@
+[
+  {
+    "id": "community-framework",
+    "name": "Community Framework",
+    "workshopId": "1559212036",
+    "required": true,
+    "description": "Required scripting framework. Load this first in your launch order."
+  },
+  {
+    "id": "community-online-tools",
+    "name": "Community Online Tools",
+    "workshopId": "1564026768",
+    "required": true,
+    "description": "Admin tools and player utilities."
+  },
+  {
+    "id": "vpp-admin-tools",
+    "name": "VPP Admin Tools",
+    "workshopId": "1828439124",
+    "required": true,
+    "description": "Server-side admin suite. Required by client for menu UI."
+  },
+  {
+    "id": "trader",
+    "name": "Trader",
+    "workshopId": "1590841260",
+    "required": true,
+    "description": "Trader system used in our safezones."
+  },
+  {
+    "id": "dayz-expansion-bundle",
+    "name": "DayZ-Expansion-Bundle",
+    "workshopId": "2116157322",
+    "required": true,
+    "description": "Vehicles, helicopters, party system, markers."
+  },
+  {
+    "id": "base-building-plus",
+    "name": "Base Building Plus",
+    "workshopId": "1828502391",
+    "required": false,
+    "description": "Optional. Used on the Livonia PVE server."
+  },
+  {
+    "id": "namalsk-island",
+    "name": "Namalsk Island",
+    "workshopId": "2289456201",
+    "required": false,
+    "description": "Required only for the Namalsk Hardcore server."
+  },
+  {
+    "id": "namalsk-survival",
+    "name": "Namalsk Survival",
+    "workshopId": "2289456543",
+    "required": false,
+    "description": "Survival mechanics for Namalsk. Required for the Namalsk server."
+  }
+]

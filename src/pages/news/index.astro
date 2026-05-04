@@ -1,0 +1,76 @@
+---
+import Base from '~/layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const news = (await getCollection('news')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const formatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: '2-digit', year: 'numeric' });
+---
+<Base
+  title="News & Patch Notes"
+  description="Updates, server wipes, and patch notes for OutbreakDayZ."
+>
+  <section class="container page-head">
+    <p class="eyebrow">// Communications</p>
+    <h1>News</h1>
+    <p class="lede">Wipes, patches, and the occasional after-action report.</p>
+  </section>
+
+  <section class="container">
+    <ul class="news-list">
+      {news.map((n) => (
+        <li class="card brackets" data-reveal>
+          <p class="meta">
+            <time datetime={n.data.date.toISOString()}>{formatter.format(n.data.date)}</time>
+            {n.data.author && <><span class="sep">·</span>{n.data.author}</>}
+          </p>
+          <h2><a href={`/news/${n.id}`}>{n.data.title}</a></h2>
+          <p class="excerpt">{n.data.excerpt}</p>
+          <a class="link" href={`/news/${n.id}`}>Read more &rarr;</a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .page-head { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; }
+  .news-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 1rem;
+  }
+  .news-list h2 { font-size: 1.4rem; margin: 0.25rem 0 0.5rem; }
+  .news-list h2 a { color: var(--text); }
+  .news-list h2 a:hover { color: var(--blood-bright); }
+  .meta {
+    color: var(--text-muted);
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 0.85rem;
+    margin: 0;
+  }
+  .sep { margin: 0 0.5rem; }
+  .excerpt { color: var(--text-dim); margin: 0 0 0.75rem; }
+  .link {
+    color: var(--rust);
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.85rem;
+    font-weight: 700;
+  }
+</style>

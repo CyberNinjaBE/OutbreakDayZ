@@ -1,0 +1,66 @@
+---
+import Base from '~/layouts/Base.astro';
+import ServerCard from '~/components/ServerCard.astro';
+import { getCollection } from 'astro:content';
+
+const servers = await getCollection('servers');
+
+const jsonLd = servers.map((s) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: s.data.name,
+  description: s.data.description ?? `${s.data.map} DayZ server with ${s.data.slots} slots.`,
+  serviceType: 'DayZ Game Server',
+  provider: { '@type': 'Organization', name: 'OutbreakDayZ' },
+}));
+---
+<Base
+  title="Servers"
+  description="Live OutbreakDayZ servers. Chernarus, Livonia, Namalsk. Slot counts, connect strings, BattleMetrics links."
+  jsonLd={jsonLd}
+>
+  <section class="container page-head">
+    <p class="eyebrow">// Live infrastructure</p>
+    <h1>Servers</h1>
+    <p class="lede">
+      All servers run on US East metal. Click "Copy connect" and paste into the DayZ launcher,
+      or browse via BattleMetrics.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="grid">
+      {servers.map((s) => (
+        <ServerCard
+          name={s.data.name}
+          map={s.data.map}
+          slots={s.data.slots}
+          ip={s.data.ip}
+          port={s.data.port}
+          status={s.data.status}
+          battlemetricsId={s.data.battlemetricsId}
+          description={s.data.description}
+          tags={s.data.tags}
+        />
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .page-head { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+</style>

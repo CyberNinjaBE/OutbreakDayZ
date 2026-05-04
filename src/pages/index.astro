@@ -1,9 +1,138 @@
 ---
 import Base from '~/layouts/Base.astro';
+import Hero from '~/components/Hero.astro';
+import FeatureGrid from '~/components/FeatureGrid.astro';
+import ServerCard from '~/components/ServerCard.astro';
+import EventCard from '~/components/EventCard.astro';
+import CTA from '~/components/CTA.astro';
+import { getCollection } from 'astro:content';
+
+const servers = (await getCollection('servers')).slice(0, 3);
+const events = (await getCollection('events'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 2);
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'OutbreakDayZ',
+    url: 'https://outbreakdayz.com',
+    logo: 'https://outbreakdayz.com/favicon.svg',
+    sameAs: [],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'OutbreakDayZ',
+    url: 'https://outbreakdayz.com',
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'VideoGame',
+    name: 'DayZ',
+    url: 'https://dayz.com',
+    gamePlatform: ['PC'],
+  },
+];
 ---
-<Base title="OutbreakDayZ">
+<Base
+  title="OutbreakDayZ"
+  description="OutbreakDayZ is a US-based DayZ community server. Hardcore survival. Brutal nights. A community that has your back."
+  jsonLd={jsonLd}
+>
+  <Hero
+    eyebrow="A DayZ Community Server"
+    title="The Outbreak Continues"
+    subtitle="Hardcore survival on US East metal. Three maps, active staff, and a community that doesn't ghost when the shooting starts."
+    ctaPrimary={{ href: '/how-to-connect', label: 'How to Connect' }}
+    ctaSecondary={{ href: '/servers', label: 'View Servers' }}
+  />
+
   <section class="container">
-    <h1 class="glitch" data-text="Outbreak DayZ">Outbreak DayZ</h1>
-    <p>Coming soon.</p>
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">// Operations</p>
+      <h2>What you get</h2>
+      <p class="lede">No streamer drama. No shop-only weapons. Just the game we all signed up for.</p>
+    </header>
+    <FeatureGrid />
   </section>
+
+  <section class="container">
+    <header class="section-head" data-reveal>
+      <p class="eyebrow">// Live now</p>
+      <h2>Active Servers</h2>
+      <p class="lede">Pick your map. Copy the connect string. Get in.</p>
+    </header>
+    <div class="server-grid">
+      {servers.map((s) => (
+        <ServerCard
+          name={s.data.name}
+          map={s.data.map}
+          slots={s.data.slots}
+          ip={s.data.ip}
+          port={s.data.port}
+          status={s.data.status}
+          battlemetricsId={s.data.battlemetricsId}
+          description={s.data.description}
+          tags={s.data.tags}
+        />
+      ))}
+    </div>
+    <p class="centered" data-reveal>
+      <a class="btn" href="/servers">All Servers &rarr;</a>
+    </p>
+  </section>
+
+  {events.length > 0 && (
+    <section class="container">
+      <header class="section-head" data-reveal>
+        <p class="eyebrow">// Coming up</p>
+        <h2>Recent Events</h2>
+      </header>
+      <div class="event-grid">
+        {events.map((e) => (
+          <EventCard
+            title={e.data.title}
+            date={e.data.date}
+            location={e.data.location}
+            summary={e.data.summary}
+            href={`/events/${e.id}`}
+          />
+        ))}
+      </div>
+    </section>
+  )}
+
+  <CTA
+    eyebrow="// Join the squad"
+    title="The dead don't sleep. Neither do we."
+    body="Drop into our Discord. Get the launch order. Bring a friend or pick one up at spawn."
+    primary={{ href: '/community', label: 'Join Discord' }}
+    secondary={{ href: '/how-to-connect', label: 'Read the Guide' }}
+  />
 </Base>
+
+<style>
+  .section-head { margin-bottom: 2rem; }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; }
+  .server-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.25rem;
+  }
+  .event-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1.25rem;
+  }
+  .centered { text-align: center; margin-top: 2rem; }
+</style>

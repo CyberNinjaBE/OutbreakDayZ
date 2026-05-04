@@ -1,0 +1,109 @@
+---
+interface Mod {
+  id: string;
+  name: string;
+  workshopId: string;
+  required: boolean;
+  description?: string;
+}
+interface Props {
+  mods: Mod[];
+}
+const { mods } = Astro.props;
+
+const required = mods.filter((m) => m.required);
+const optional = mods.filter((m) => !m.required);
+---
+<div class="mod-sections">
+  {required.length > 0 && (
+    <section>
+      <h2>Required</h2>
+      <p class="lede">Subscribe and load these in this order. Without them, you cannot connect.</p>
+      <ol class="mod-grid">
+        {required.map((m, i) => (
+          <li class="card mod-card brackets" data-reveal>
+            <span class="num">{String(i + 1).padStart(2, '0')}</span>
+            <div>
+              <h3>{m.name}</h3>
+              {m.description && <p>{m.description}</p>}
+              <a
+                class="link"
+                href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${m.workshopId}`}
+                rel="noopener noreferrer"
+              >Open in Steam Workshop &rarr;</a>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+  )}
+
+  {optional.length > 0 && (
+    <section>
+      <h2>Optional</h2>
+      <p class="lede">Required only for specific servers. Check the server description.</p>
+      <ul class="mod-grid">
+        {optional.map((m) => (
+          <li class="card mod-card brackets" data-reveal>
+            <span class="num opt">+</span>
+            <div>
+              <h3>{m.name}</h3>
+              {m.description && <p>{m.description}</p>}
+              <a
+                class="link"
+                href={`https://steamcommunity.com/sharedfiles/filedetails/?id=${m.workshopId}`}
+                rel="noopener noreferrer"
+              >Open in Steam Workshop &rarr;</a>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+</div>
+
+<style>
+  .mod-sections {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+  .lede { color: var(--text-dim); margin-bottom: 1.5rem; }
+  .mod-grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+  .mod-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1rem;
+    align-items: start;
+  }
+  .num {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--blood-bright);
+    line-height: 1;
+    border: 1px solid var(--border);
+    padding: 0.4rem 0.6rem;
+    min-width: 48px;
+    text-align: center;
+  }
+  .num.opt { color: var(--rust); }
+  .mod-card h3 { font-size: 1.05rem; margin: 0 0 0.4rem; }
+  .mod-card p { color: var(--text-dim); margin: 0 0 0.5rem; font-size: 0.92rem; }
+  .link {
+    color: var(--rust);
+    font-size: 0.85rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-weight: 700;
+  }
+  .link:hover { color: var(--blood-bright); }
+</style>

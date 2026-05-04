@@ -1,0 +1,163 @@
+---
+import CopyConnect from './CopyConnect.astro';
+
+interface Props {
+  name: string;
+  map: string;
+  slots: number;
+  ip: string;
+  port: number;
+  status: 'online' | 'maintenance' | 'offline';
+  battlemetricsId?: string;
+  description?: string;
+  tags?: string[];
+}
+
+const { name, map, slots, ip, port, status, battlemetricsId, description, tags = [] } = Astro.props;
+const statusLabel = { online: 'Online', maintenance: 'Maintenance', offline: 'Offline' }[status];
+---
+<article class="card server-card brackets" data-reveal>
+  <header class="head">
+    <div>
+      <p class="map">{map}</p>
+      <h3>{name}</h3>
+    </div>
+    <span class={`status status-${status}`} aria-label={`Status: ${statusLabel}`}>
+      <span class="dot" aria-hidden="true"></span>
+      {statusLabel}
+    </span>
+  </header>
+
+  {description && <p class="desc">{description}</p>}
+
+  <ul class="meta">
+    <li><span>Slots</span><strong>{slots}</strong></li>
+    <li><span>Map</span><strong>{map}</strong></li>
+    <li><span>Port</span><strong>{port}</strong></li>
+  </ul>
+
+  {tags.length > 0 && (
+    <ul class="tags">
+      {tags.map((t) => <li>{t}</li>)}
+    </ul>
+  )}
+
+  <footer class="actions">
+    <CopyConnect ip={ip} port={port} />
+    {battlemetricsId && battlemetricsId !== 'TBD' && (
+      <a
+        class="btn"
+        href={`https://www.battlemetrics.com/servers/dayz/${battlemetricsId}`}
+        rel="noopener noreferrer"
+      >
+        BattleMetrics
+      </a>
+    )}
+  </footer>
+</article>
+
+<style>
+  .server-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .map {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.25rem;
+  }
+  h3 {
+    font-size: clamp(1.1rem, 1.6vw, 1.5rem);
+    margin: 0;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.6rem;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    flex-shrink: 0;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--text-muted);
+  }
+  .status-online { color: var(--mil); border-color: var(--mil); }
+  .status-online .dot { background: var(--mil); box-shadow: 0 0 8px rgba(74, 90, 58, 0.6); }
+  .status-maintenance { color: var(--warning); border-color: var(--warning); }
+  .status-maintenance .dot { background: var(--warning); }
+  .status-offline { color: var(--danger); border-color: var(--danger); }
+  .status-offline .dot { background: var(--danger); }
+
+  .desc { color: var(--text-dim); margin: 0; }
+
+  .meta {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding-block: 0.85rem;
+  }
+  .meta li {
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .meta span {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-muted);
+  }
+  .meta strong {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text);
+  }
+
+  .tags {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .tags li {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-dim);
+    padding: 0.25rem 0.55rem;
+    border: 1px solid var(--border);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: auto;
+  }
+</style>

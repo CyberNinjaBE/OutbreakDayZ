@@ -1,0 +1,67 @@
+---
+import Base from '~/layouts/Base.astro';
+import RuleAccordion from '~/components/RuleAccordion.astro';
+import { getCollection, render } from 'astro:content';
+
+const rules = (await getCollection('rules')).sort((a, b) => a.data.order - b.data.order);
+const rendered = await Promise.all(
+  rules.map(async (r) => ({
+    data: r.data,
+    Content: (await render(r)).Content,
+  })),
+);
+---
+<Base
+  title="Server Rules"
+  description="The rules for OutbreakDayZ. Read them. Live by them. Survive."
+>
+  <section class="container page-head">
+    <p class="eyebrow">// Code of conduct</p>
+    <h1>Server Rules</h1>
+    <p class="lede">
+      Short list. We enforce them. Punishments scale from warnings to permanent bans
+      depending on intent and history.
+    </p>
+  </section>
+
+  <section class="container">
+    <div class="accordions">
+      {rendered.map(({ data, Content }, i) => (
+        <RuleAccordion
+          title={data.title}
+          category={data.category}
+          summary={data.summary}
+          open={i === 0}
+        >
+          <Content />
+        </RuleAccordion>
+      ))}
+    </div>
+
+    <p class="note">
+      Have a question or need to dispute a ruling? Open a ticket in our
+      <a href="/community" class="link">Discord</a>. Don't argue in chat — it never works.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .page-head { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; }
+  .accordions { display: flex; flex-direction: column; }
+  .note {
+    margin-top: 2.5rem;
+    color: var(--text-dim);
+    border-left: 2px solid var(--blood);
+    padding: 0.5rem 1rem;
+  }
+  .link { color: var(--rust); text-decoration: underline; text-underline-offset: 4px; }
+</style>

@@ -1,0 +1,81 @@
+---
+import Base from '~/layouts/Base.astro';
+import EventCard from '~/components/EventCard.astro';
+import { getCollection } from 'astro:content';
+
+const all = (await getCollection('events')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+const now = Date.now();
+const upcoming = all.filter((e) => e.data.date.getTime() >= now).reverse();
+const past = all.filter((e) => e.data.date.getTime() < now);
+---
+<Base
+  title="Events"
+  description="Upcoming and past OutbreakDayZ community events. Convoy runs, KOTH, hostage rescues, and more."
+>
+  <section class="container page-head">
+    <p class="eyebrow">// Operations log</p>
+    <h1>Events</h1>
+    <p class="lede">
+      Weekly community events with real loot rewards. Sign up in Discord. Spectators welcome
+      at observer points.
+    </p>
+  </section>
+
+  <section class="container">
+    <h2>Upcoming</h2>
+    {upcoming.length === 0 ? (
+      <p class="empty">Nothing on the calendar. Check back, or pitch one in Discord.</p>
+    ) : (
+      <div class="grid">
+        {upcoming.map((e) => (
+          <EventCard
+            title={e.data.title}
+            date={e.data.date}
+            location={e.data.location}
+            summary={e.data.summary}
+            href={`/events/${e.id}`}
+          />
+        ))}
+      </div>
+    )}
+  </section>
+
+  {past.length > 0 && (
+    <section class="container">
+      <h2>Past</h2>
+      <div class="grid">
+        {past.map((e) => (
+          <EventCard
+            title={e.data.title}
+            date={e.data.date}
+            location={e.data.location}
+            summary={e.data.summary}
+            href={`/events/${e.id}`}
+            past
+          />
+        ))}
+      </div>
+    </section>
+  )}
+</Base>
+
+<style>
+  .page-head { padding-block: clamp(3rem, 6vw, 5rem) clamp(2rem, 4vw, 3rem); }
+  .eyebrow {
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--rust);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    margin: 0 0 0.5rem;
+  }
+  .lede { color: var(--text-dim); max-width: 60ch; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    gap: 1.25rem;
+  }
+  .empty { color: var(--text-dim); padding: 1.5rem 0; }
+</style>
