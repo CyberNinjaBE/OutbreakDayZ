@@ -1,0 +1,14 @@
+---
+/* Edge-darkening vignette (no JS, no images) */
+---
+<div class="vignette" aria-hidden="true"></div>
+
+<style>
+  .vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 49;
+    box-shadow: var(--vignette);
+  }
+</style>
