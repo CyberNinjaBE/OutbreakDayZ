@@ -1,6 +1,55 @@
 # OutbreakDayZ
 
-The website for **OutbreakDayZ**, a US-based DayZ community server. Grim, fast, fully static.
+De website voor **OutbreakDayZ**, een US-based DayZ community server. Grim, fast, fully static.
+
+---
+
+## Voor de beheerder — [Decadence]
+
+Beheerder **Decadence** kan alle pagina-inhoud van deze website zelf aanpassen
+door rechtstreeks de bestanden in deze GitHub-repository te bewerken. Zodra een
+wijziging gepusht is naar de `main` branch wordt de site automatisch opnieuw
+gebouwd en gedeployed.
+
+### Welke pagina hoort bij welk bestand?
+
+| Pagina op de site            | Bewerk dit bestand                                  |
+|------------------------------|-----------------------------------------------------|
+| Homepagina (`/`)             | `src/pages/index.astro`                             |
+| Servers (`/servers`)         | `src/content/servers/servers.json`                  |
+| Hoe te verbinden             | `src/pages/how-to-connect.astro`                    |
+| Regels (`/rules`)            | `src/content/rules/*.mdx`                           |
+| Mods (`/mods`)               | `src/content/mods/mods.json`                        |
+| Kaart (`/map`)               | `src/pages/map.astro` + `src/components/MapView.astro` |
+| Events                       | `src/content/events/*.mdx`                          |
+| Nieuws / patch notes         | `src/content/news/*.mdx`                            |
+| Community / staff            | `src/pages/community.astro` + `src/content/staff/staff.json` |
+| Shop / donatie tiers         | `src/pages/shop.astro`                              |
+| Footer (navigatie onderaan)  | `src/components/Footer.astro`                       |
+| Navigatie bovenaan           | `src/components/Nav.astro`                          |
+| 404 pagina                   | `src/pages/404.astro`                               |
+
+### Hoe wijzig ik tekst?
+
+1. Open het bestand uit de tabel hierboven via de GitHub-website.
+2. Klik rechtsboven op het potlood-icoon (Edit this file).
+3. Pas de tekst aan tussen de aanhalingstekens of in de Markdown.
+4. Onderaan op "Commit changes" klikken — een korte beschrijving van wat je
+   veranderd hebt is voldoende.
+5. Binnen enkele minuten staat de aanpassing live op de website.
+
+### Een nieuwe server / mod / event / nieuwsbericht toevoegen?
+
+- **Server**: voeg een nieuw blok toe in `src/content/servers/servers.json`.
+- **Mod**: voeg een nieuw blok toe in `src/content/mods/mods.json`.
+- **Event**: kopieer een bestaand `.mdx` bestand in `src/content/events/`,
+  hernoem het, en pas de inhoud aan.
+- **Nieuwsbericht**: zelfde aanpak in `src/content/news/`.
+
+Het verplichte veldformaat (frontmatter) staat gedocumenteerd in
+`src/content.config.ts`.
+
+---
 
 ## Stack
 
@@ -31,7 +80,6 @@ public/
   og/                generated OG images (1200x630) — built by scripts/og.mjs
   grain.png          generated film-grain texture
   favicon.svg        SVG favicon
-  llms.txt           index for LLM crawlers
 scripts/
   og.mjs             OG image generator (satori + sharp)
   grain.mjs          grain.png generator

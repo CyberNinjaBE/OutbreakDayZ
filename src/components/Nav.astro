@@ -1,4 +1,11 @@
 ---
+// =============================================================================
+// NAVIGATIE BOVENAAN (op elke pagina)
+// Beheerder [Decadence] kan de menu-items aanpassen door de `links` array
+// hieronder te bewerken op GitHub. `href` is de URL, `label` is de tekst
+// die de bezoeker ziet. Verwijder een regel om een menu-item weg te halen,
+// of voeg er een toe.
+// =============================================================================
 const pathname = '/' + (Astro.url.pathname.replace(/^\/+|\/+$/g, '') || '');
 const links = [
   { href: '/', label: 'Home' },

@@ -1,4 +1,12 @@
 ---
+// =============================================================================
+// NIEUWS DETAIL PAGINA (/news/<slug>)
+// Beheerder [Decadence] hoeft dit bestand normaal niet aan te raken — het is
+// de mal waar elk nieuwsbericht in getoond wordt. Wil je een nieuwsbericht
+// wijzigen? Bewerk dan het juiste .mdx bestand in:
+//   src/content/news/<bericht-naam>.mdx
+// De bestandsnaam (zonder .mdx) bepaalt de URL (slug).
+// =============================================================================
 import Article from '~/layouts/Article.astro';
 import { getCollection, render } from 'astro:content';
 
