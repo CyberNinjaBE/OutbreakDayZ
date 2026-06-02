@@ -2,6 +2,77 @@
 
 The website for **OutbreakDayZ**, a US-based DayZ community server. Grim, fast, fully static.
 
+---
+
+## For the site admin — [Decadence]
+
+Hi Decadence — this section explains how you can change anything on the site
+yourself. You don't need anyone else.
+
+**You can edit every page of the site directly on GitHub** (or by editing the
+files locally in Notepad++ and committing them). When you save a change, the
+site rebuilds and the new version goes live within a few minutes.
+
+### Which page comes from which file?
+
+| Page on the site             | File you edit                                       |
+|------------------------------|-----------------------------------------------------|
+| Home page (`/`)              | `src/pages/index.astro`                             |
+| Servers (`/servers`)         | `src/content/servers/servers.json`                  |
+| How to Connect               | `src/pages/how-to-connect.astro`                    |
+| Rules (`/rules`)             | `src/content/rules/*.mdx`                           |
+| Mods (`/mods`)               | `src/content/mods/mods.json`                        |
+| Map (`/map`)                 | `src/pages/map.astro` + `src/components/MapView.astro` |
+| Events                       | `src/content/events/*.mdx`                          |
+| News / patch notes           | `src/content/news/*.mdx`                            |
+| Community / staff            | `src/pages/community.astro` + `src/content/staff/staff.json` |
+| Shop / donation tiers        | `src/pages/shop.astro`                              |
+| Footer (bottom of every page)| `src/components/Footer.astro`                       |
+| Top navigation               | `src/components/Nav.astro`                          |
+| 404 page                     | `src/pages/404.astro`                               |
+
+### How to change text (on GitHub)
+
+1. Open the file from the table above on github.com.
+2. Click the pencil icon (top right of the file) — "Edit this file".
+3. Change the text. Only edit what is between quotes or what looks like normal
+   words / sentences. Do **not** change anything that looks like code
+   (anything inside `{...}`, between `<...>` tags, or starting with `import`).
+4. Scroll down and click **Commit changes**. A short note about what you
+   changed is enough.
+5. Wait a few minutes — the site rebuilds and your change goes live.
+
+### How to change text (in Notepad++)
+
+1. Clone the repository to your computer (or download the ZIP from GitHub).
+2. Open the file you want to change in Notepad++.
+3. Edit the text. Same rule as above: only touch words, not code.
+4. Save the file.
+5. Commit and push the change back to GitHub (or upload the changed file via
+   the GitHub web interface).
+
+### Adding a new server / mod / event / news post
+
+- **New server**: add a new block in `src/content/servers/servers.json`.
+- **New mod**: add a new block in `src/content/mods/mods.json`.
+- **New event**: copy an existing `.mdx` file in `src/content/events/`, give
+  it a new name, then change the content inside.
+- **New news post**: same idea, in `src/content/news/`.
+
+Each folder under `src/content/` has its own `README.md` that explains the
+fields step by step. Read those before you start.
+
+### What you should NOT change
+
+- Anything in `src/components/` (apart from `Nav.astro` and `Footer.astro`).
+- Anything in `src/layouts/`.
+- The `scripts/` folder, the `astro.config.mjs`, `package.json`, or
+  `tsconfig.json`.
+
+If a change you need touches one of those, ask a developer.
+
+---
+
 ## Stack
 
 - **[Astro 5](https://astro.build)** — static output, view transitions, image pipeline
@@ -31,7 +102,6 @@ public/
   og/                generated OG images (1200x630) — built by scripts/og.mjs
   grain.png          generated film-grain texture
   favicon.svg        SVG favicon
-  llms.txt           index for LLM crawlers
 scripts/
   og.mjs             OG image generator (satori + sharp)
   grain.mjs          grain.png generator

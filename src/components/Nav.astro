@@ -1,4 +1,17 @@
 ---
+// =============================================================================
+// TOP NAVIGATION  (the menu at the top of every page)
+//
+// HEY DECADENCE - You can edit the menu yourself.
+//
+// The menu items are in the `links` list right below. Each line is one
+// menu item:
+//   - "href"  -> the URL the menu item goes to
+//   - "label" -> the text the visitor sees
+//
+// To remove a menu item, delete the whole line (including the comma).
+// To add a menu item, copy a line and change href and label.
+// =============================================================================
 const pathname = '/' + (Astro.url.pathname.replace(/^\/+|\/+$/g, '') || '');
 const links = [
   { href: '/', label: 'Home' },

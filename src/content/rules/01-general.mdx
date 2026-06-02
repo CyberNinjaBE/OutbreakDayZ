@@ -5,6 +5,21 @@ order: 10
 summary: The basics. Don't be the reason we have to write more rules.
 ---
 
+{/*
+  HEY DECADENCE - You can edit this rule category yourself.
+
+  The fields at the top (between the --- lines) control how this category
+  is shown on the /rules page:
+    - title    -> the title of the accordion
+    - category -> small label above the title
+    - order    -> sort number (lower number = higher up in the list)
+    - summary  -> short description shown under the title
+
+  The actual rules are inside <RuleList items={[ ... ]} /> below.
+  One rule per line, in quotes, with a comma at the end of each line.
+  To add a rule, copy a line. To remove one, delete the whole line.
+*/}
+
 import RuleList from '~/components/RuleList.astro';
 
 <RuleList items={[
