@@ -5,7 +5,7 @@ Founder: Ghost
 Server Admin: Doc
 Community Manager: Vega
 Moderator: Wraith
-Site: rebuilt by Claude Code
+Site Admin: Decad3nce
 Stack: Astro, Tailwind, MDX, Sharp, Satori
 Hosting: Hetzner / Coolify
 

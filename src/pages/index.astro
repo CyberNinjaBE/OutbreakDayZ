@@ -1,4 +1,21 @@
 ---
+// =============================================================================
+// HOME PAGE  (/)
+//
+// HEY DECAD3NCE, you can edit this page yourself.
+//
+// What's on this page:
+//   - The big <Hero> at the top (title, subtitle, two buttons)
+//   - The "What you get" section
+//   - The Active Servers grid (loaded from src/content/servers/servers.json)
+//   - The Recent Events grid (loaded from src/content/events/*.mdx)
+//   - The Discord section (read the note above the <a> tag below)
+//   - The call-to-action box at the bottom
+//
+// All of the text is right here in this file. Just look for the words
+// between quotes ("...") and change them. Don't touch anything that looks
+// like code.
+// =============================================================================
 import Base from '~/layouts/Base.astro';
 import Hero from '~/components/Hero.astro';
 import FeatureGrid from '~/components/FeatureGrid.astro';
@@ -12,6 +29,17 @@ const events = (await getCollection('events'))
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, 2);
 
+// -----------------------------------------------------------------------------
+// PERMANENT DISCORD LINK
+// HEY DECAD3NCE, Thomas set up this Discord invite as a PERMANENT link.
+// Please do not remove it. If you ever need to replace it, make sure the
+// new invite is also marked as permanent in Discord (not the default 7-day
+// invite), otherwise the link on the site will break after a week.
+// The link is used in two places below: the dedicated Discord section and
+// the bottom call-to-action.
+// -----------------------------------------------------------------------------
+const discordInvite = 'https://discord.gg/X4naN9WjQx';
+
 const jsonLd = [
   {
     '@context': 'https://schema.org',
@@ -19,7 +47,7 @@ const jsonLd = [
     name: 'OutbreakDayZ',
     url: 'https://outbreakdayz.com',
     logo: 'https://outbreakdayz.com/favicon.svg',
-    sameAs: [],
+    sameAs: [discordInvite],
   },
   {
     '@context': 'https://schema.org',
@@ -84,6 +112,33 @@ const jsonLd = [
     </p>
   </section>
 
+  {/* =========================================================================
+       DISCORD SECTION
+       HEY DECAD3NCE, the Discord invite link is set near the top of this file
+       in the `discordInvite` variable. To change the invite, edit it there
+       (not here). The text in this section (title, paragraph, button label)
+       you can change right here below.
+     ========================================================================= */}
+  <section class="container discord-section">
+    <div class="discord-card brackets" data-reveal>
+      <div class="discord-content">
+        <p class="eyebrow">// COMMS</p>
+        <h2>Join our Discord</h2>
+        <p class="discord-body">
+          The fastest way into the community. Server announcements, event
+          signups, raid coordination, and a #help channel staffed by humans
+          who actually know the maps. Free to join. No nonsense.
+        </p>
+        <a class="btn btn-primary btn-discord" href={discordInvite} target="_blank" rel="noopener noreferrer">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.099.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+          Join the Discord
+        </a>
+        <p class="discord-tag">discord.gg/X4naN9WjQx</p>
+      </div>
+      <p class="badge" aria-hidden="true">// COMMS</p>
+    </div>
+  </section>
+
   {events.length > 0 && (
     <section class="container">
       <header class="section-head" data-reveal>
@@ -108,7 +163,7 @@ const jsonLd = [
     eyebrow="// Join the squad"
     title="The dead don't sleep. Neither do we."
     body="Drop into our Discord. Get the launch order. Bring a friend or pick one up at spawn."
-    primary={{ href: '/community', label: 'Join Discord' }}
+    primary={{ href: discordInvite, label: 'Join Discord' }}
     secondary={{ href: '/how-to-connect', label: 'Read the Guide' }}
   />
 </Base>
@@ -135,4 +190,55 @@ const jsonLd = [
     gap: 1.25rem;
   }
   .centered { text-align: center; margin-top: 2rem; }
+
+  .discord-section { padding-block: clamp(1rem, 3vw, 2rem); }
+  .discord-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    background: linear-gradient(180deg, rgba(88, 101, 242, 0.08), transparent 70%);
+    border: 1px solid var(--border);
+    padding: clamp(1.75rem, 4vw, 3rem);
+  }
+  .discord-content h2 {
+    margin: 0 0 1rem;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    max-width: 18ch;
+  }
+  .discord-body {
+    color: var(--text-dim);
+    margin: 0 0 1.75rem;
+    max-width: 55ch;
+  }
+  .btn-discord {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: #5865f2;
+    border-color: #5865f2;
+    color: #fff;
+  }
+  .btn-discord:hover {
+    background: #4752c4;
+    border-color: #4752c4;
+  }
+  .discord-tag {
+    margin: 1rem 0 0;
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    letter-spacing: 0.12em;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+  .badge {
+    align-self: end;
+    font-family: 'Big Shoulders Stencil Display', sans-serif;
+    color: var(--text-muted);
+    letter-spacing: 0.18em;
+    margin: 0;
+    writing-mode: vertical-rl;
+  }
+  @media (max-width: 720px) {
+    .discord-card { grid-template-columns: 1fr; }
+    .badge { display: none; }
+  }
 </style>
