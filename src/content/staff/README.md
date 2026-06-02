@@ -1,4 +1,4 @@
-# Staff — for the site admin [Decadence]
+# Staff - for the site admin [Decad3nce]
 
 This folder controls the staff list shown on the /community page.
 
@@ -20,7 +20,7 @@ curly braces `{ ... }`.
 ## Adding or removing a staff member
 
 Copy or delete a `{ ... }` block in `staff.json`. Watch the commas between
-blocks — JSON is picky about that.
+blocks - JSON is picky about that.
 
 ## Tip
 

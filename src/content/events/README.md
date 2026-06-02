@@ -1,4 +1,4 @@
-# Events — for the site admin [Decadence]
+# Events - for the site admin [Decad3nce]
 
 This folder controls the events shown on the website.
 
@@ -14,11 +14,11 @@ Each event is **one `.mdx` file** in this folder. The file name (without
    no special characters.
 2. Open the file on GitHub and click the pencil icon to edit.
 3. Change the fields at the top (between the two `---` lines):
-   - `title`    — name of the event
-   - `date`     — date in `YYYY-MM-DD` format
-   - `location` — where it happens (free text)
-   - `summary`  — short description for the overview page
-   - `image`    — optional path to an image
+   - `title`    - name of the event
+   - `date`     - date in `YYYY-MM-DD` format
+   - `location` - where it happens (free text)
+   - `summary`  - short description for the overview page
+   - `image`    - optional path to an image
 4. Write the full event description below the second `---`, in Markdown.
    (`**bold**`, `- bullet list`, etc.)
 5. Click **Commit changes**. The event goes live in a few minutes.

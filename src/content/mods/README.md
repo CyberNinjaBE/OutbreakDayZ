@@ -1,4 +1,4 @@
-# Mods — for the site admin [Decadence]
+# Mods - for the site admin [Decad3nce]
 
 This folder controls the list of mods shown on the website.
 
@@ -22,7 +22,7 @@ page as required mods.
 
 ## Adding or removing a mod
 
-Copy or delete a `{ ... }` block. Watch the commas between blocks — JSON is
+Copy or delete a `{ ... }` block. Watch the commas between blocks - JSON is
 picky about that.
 
 ## Tip

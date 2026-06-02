@@ -1,4 +1,4 @@
-# Rules — for the site admin [Decadence]
+# Rules - for the site admin [Decad3nce]
 
 This folder controls the server rules shown on the /rules page.
 
@@ -14,10 +14,10 @@ field inside the file (lower number = higher up).
 1. Copy an existing `.mdx` file and rename the copy, e.g. `04-events.mdx`.
 2. Open the file on GitHub and click the pencil icon to edit.
 3. Change the fields at the top (between the two `---` lines):
-   - `title`    — title of the category
-   - `category` — small label above the title
-   - `order`    — sort number (e.g. 40 to appear after "Bases" which is 30)
-   - `summary`  — short description shown under the title
+   - `title`    - title of the category
+   - `category` - small label above the title
+   - `order`    - sort number (e.g. 40 to appear after "Bases" which is 30)
+   - `summary`  - short description shown under the title
 4. Change the rules in the `<RuleList items={[ ... ]} />` block. Each rule
    is one sentence in quotes, separated by commas. Add a new rule by
    adding a new line. Remove a rule by deleting its line.

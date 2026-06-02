@@ -1,4 +1,4 @@
-# Servers — for the site admin [Decadence]
+# Servers - for the site admin [Decad3nce]
 
 This folder controls the list of servers shown on the website.
 
